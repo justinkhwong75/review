@@ -7,26 +7,41 @@
 class review (
   $users = lookup('review::users', Array[String], 'unique', 'review')
 ) {
-  include review::motd
+    case $facts['kernel'] {
+      'Linux': {
 
-  $users.each |String $user| {
-    $homedir = $user ? {
-      'root'  => '/root',
-      default => "/home/${user}",
-    }
+        include review::motd
 
-    user { $user:
-      ensure     => present,
-      shell      => '/bin/bash',
-      managehome => true,
-    }
+        $users.each |String $user| {
+          $homedir = $user ? {
+            'root'  => '/root',
+            default => "/home/${user}",
+          }
 
-    file { "${homedir}/.bashrc":
-      ensure => file,
-      owner  => $user,
-      group  => $user,
-      mode   => '0644',
-      source => 'puppet:///modules/review/bashrc',
+          user { $user:
+            ensure     => present,
+            shell      => '/bin/bash',
+            managehome => true,
+          }
+
+          file { "${homedir}/.bashrc":
+            ensure => file,
+            owner  => $user,
+            group  => $user,
+            mode   => '0644',
+            source => 'puppet:///modules/review/bashrc',
+          }
+        }
+      }
+      'windows': {
+        $users.each |String $user| {
+          user { $user:
+            ensure => present,
+            name   => $user,
+            groups => [ 'Users' ],
+          }
+        }
+      }
+      default: { notify { "Too bad, so sad!\n": } }
     }
-  }
 }
