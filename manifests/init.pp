@@ -5,7 +5,7 @@
 # @example
 #   include review
 class review (
-  $users = lookup('review::users', Array[String], 'unique', 'review')
+  $users = lookup('review::users', Array[String], { 'merge' => 'unique' }, 'review')
 ) {
     case $facts['kernel'] {
       'Linux': {
