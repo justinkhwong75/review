@@ -5,7 +5,7 @@
 # @example
 #   include review
 class review (
-  $user = 'review',
+  $user = lookup('review::users', Array[String], 'unique', 'review')
 ) {
   include review::motd
 
