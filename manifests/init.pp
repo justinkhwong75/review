@@ -10,9 +10,9 @@ class review (
     include review::motd
 
     $users = lookup('users')
-    $users.each |String $user| {
-      case $facts['kernel'] {
-        'Linux': {
+    #$users.each |String $user| {
+    #  case $facts['kernel'] {
+    #    'Linux': {
           $homedir = $user ? {
             'root'  => '/root',
             default => "/home/${user}",
@@ -31,8 +31,8 @@ class review (
             mode   => '0644',
             source => 'puppet:///modules/review/bashrc',
           }
-        }
-        default: { notify { "Too bad, so sad!\n":} }
-      }
+     #   }
+     #   default: { notify { "Too bad, so sad!\n":} }
+     # }
     }
   }
