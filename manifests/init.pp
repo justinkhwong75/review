@@ -5,26 +5,28 @@
 # @example
 #   include review
 class review (
-  $user = lookup('review::users', Array[String], 'unique', 'review')
+  $users = lookup('review::users', Array[String], 'unique', 'review')
 ) {
   include review::motd
 
-  $homedir = $user ? {
-    'root'  => '/root',
-    default => "/home/${user}",
-  }
+  $users.each |String $user| {
+    $homedir = $user ? {
+      'root'  => '/root',
+      default => "/home/${user}",
+    }
 
-  user { $user:
-    ensure     => present,
-    shell      => '/bin/bash',
-    managehome => true,
-  }
+    user { $user:
+      ensure     => present,
+      shell      => '/bin/bash',
+      managehome => true,
+    }
 
-  file { "${homedir}/.bashrc":
-    ensure => file,
-    owner  => $user,
-    group  => $user,
-    mode   => '0644',
-    source => 'puppet:///modules/review/bashrc',
+    file { "${homedir}/.bashrc":
+      ensure => file,
+      owner  => $user,
+      group  => $user,
+      mode   => '0644',
+      source => 'puppet:///modules/review/bashrc',
+    }
   }
 }
