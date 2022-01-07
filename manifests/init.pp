@@ -1,38 +1,30 @@
-# @summary A short summary of the purpose of this class
-#
 # A description of what this class does
+#
+# @summary A short summary of the purpose of this class
 #
 # @example
 #   include review
 class review (
   $user = 'review',
 ) {
-    include review::motd
+  include review::motd
 
-    $users = lookup('users')
-    #$users.each |String $user| {
-    #  case $facts['kernel'] {
-    #    'Linux': {
-          $homedir = $user ? {
-            'root'  => '/root',
-            default => "/home/${user}",
-          }
-
-          user { $user:
-            ensure     => present,
-            shell      => '/bin/bash',
-            managehome => true,
-          }
-
-          file { "${homedir}/.bashrc":
-            ensure => file,
-            owner  => $user,
-            group  => $user,
-            mode   => '0644',
-            source => 'puppet:///modules/review/bashrc',
-          }
-     #   }
-     #   default: { notify { "Too bad, so sad!\n":} }
-     # }
-    }
+  $homedir = $user ? {
+    'root'  => '/root',
+    default => "/home/${user}",
   }
+
+  user { $user:
+    ensure     => present,
+    shell      => '/bin/bash',
+    managehome => true,
+  }
+
+  file { "${homedir}/.bashrc":
+    ensure => file,
+    owner  => $user,
+    group  => $user,
+    mode   => '0644',
+    source => 'puppet:///modules/review/bashrc',
+  }
+}
