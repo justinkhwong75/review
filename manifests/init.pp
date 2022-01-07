@@ -11,25 +11,28 @@ class review (
 
     $users = lookup('users')
     $users.each |String $user| {
-      if $facts['kernel'] == 'Linux' {
-        $homedir = $user ? {
-          'root'  => '/root',
-          default => "/home/${user}",
-        }
+      case $facts['kernel'] {
+        'Linux': {
+          $homedir = $user ? {
+            'root'  => '/root',
+            default => "/home/${user}",
+          }
 
-        user { $user:
-          ensure     => present,
-          shell      => '/bin/bash',
-          managehome => true,
-        }
+          user { $user:
+            ensure     => present,
+            shell      => '/bin/bash',
+            managehome => true,
+          }
 
-        file { "${homedir}/.bashrc":
-          ensure => file,
-          owner  => $user,
-          group  => $user,
-          mode   => '0644',
-          source => 'puppet:///modules/review/bashrc',
+          file { "${homedir}/.bashrc":
+            ensure => file,
+            owner  => $user,
+            group  => $user,
+            mode   => '0644',
+            source => 'puppet:///modules/review/bashrc',
+          }
         }
+        default: { notify { "Too bad, so sad!\n":} }
       }
     }
   }
