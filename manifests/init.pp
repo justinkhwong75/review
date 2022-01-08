@@ -50,10 +50,6 @@ class review (
             name   => $user,
             groups => [ 'Users' ],
           }
-          file { "${homedir}\\Downloads\\yay.txt":
-            ensure  => present,
-            content => 'I love Puppet!',
-          }
         }
       }
       default: { notify { "Too bad, so sad!\n": } }
