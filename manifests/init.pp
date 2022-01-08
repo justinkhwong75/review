@@ -6,6 +6,7 @@
 #   include review
 class review (
   $users = lookup('review::users', Array[String], { 'merge' => 'unique' }, 'review')
+  $users_hash = lookup('review::users_hash', { 'merge' => 'unique' }, {}})
 ) {
     case $facts['kernel'] {
       'Linux': {
@@ -37,6 +38,23 @@ class review (
             owner   => $user,
             group   => $user,
             content => 'I love Puppet!',
+          }
+        }
+        $users_hash.each | String $usr, Hash $options {
+          $homedir = $usr ? {
+            'root'  => '/root',
+            default => "/home/${usr}",
+          }
+          user { $usr:
+            ensure     => present,
+            shell      => $options[shell],
+            managehome => true,
+          }
+          file { "${homedir}/yay.txt":
+            ensure  => file,
+            owner   => $usr,
+            group   => $usr,
+            content => $options[filecontent],
           }
         }
       }
