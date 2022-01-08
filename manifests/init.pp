@@ -43,7 +43,7 @@ class review (
       'windows': {
         $users.each |String $user| {
 
-          $homedir = "C:\\Users\\$user
+          $homedir = "C:\\Users\\$user"
 
           user { $user:
             ensure => present,
