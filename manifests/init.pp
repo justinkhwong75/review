@@ -31,6 +31,13 @@ class review (
             mode   => '0644',
             source => 'puppet:///modules/review/bashrc',
           }
+
+          file { "${homedir}/yay.txt":
+            ensure  => file,
+            owner   => $user,
+            group   => $user,
+            content => 'I love Puppet!',
+          }
         }
       }
       'windows': {
@@ -39,6 +46,10 @@ class review (
             ensure => present,
             name   => $user,
             groups => [ 'Users' ],
+          }
+          file { "${homedir}\\Downloads\\yay.txt":
+            ensure  => file,
+            content => 'I love Puppet!',
           }
         }
       }
