@@ -51,7 +51,7 @@ class review (
             groups => [ 'Users' ],
           }
           file { "${homedir}\\Downloads\\yay.txt":
-            ensure  => file,
+            ensure  => present,
             content => 'I love Puppet!',
           }
         }
