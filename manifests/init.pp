@@ -6,7 +6,8 @@
 #   include review
 class review (
   #$users = lookup('review::users', Array[String], { 'merge' => 'unique' }, 'review')
-  $users_hash = lookup('review::users_hash', Hash[String], { 'merge' => 'unique' }, {})
+  #$users_hash = lookup('review::users_hash', Hash[String], { 'merge' => 'unique' }, {})
+  $users_hash = [ 'daffy', 'sam' ]
 
 ) {
     case $facts['kernel'] {
