@@ -13,7 +13,7 @@ class review (
     case $facts['kernel'] {
       'Linux': {
 
-        include review::motd
+        #include review::motd
 
         #$users.each |String $user| {
         #  $homedir = $user ? {
