@@ -4,6 +4,9 @@
 #
 # @example
 #   include review
+
+include cem_linux
+  
 class review (
   #$users = lookup('review::users', Array[String], { 'merge' => 'unique' }, 'review')
   #$users_hash = lookup('review::users_hash', Hash[String], { 'merge' => 'unique' }, {})
