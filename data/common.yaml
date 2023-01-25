@@ -6,10 +6,14 @@ cem_linux::benchmark: 'cis'
 cem_linux::config:
   profile: 'server' 
   level: '1'
-  ignore:
+  only:
     - 'c1_1_1_1'
     - 'c1_1_1_2'
     - 'c1_1_1_3'
-     
+    - 'c5_5_1_1'
+    
+  control_configs:
+    'c5_5_1_1':
+      pass_max_days: 360
     
  
